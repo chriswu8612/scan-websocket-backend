@@ -1,3 +1,5 @@
+http://localhost:8080/send-modules
+
 [
     {
         "name": "example1.war",
@@ -9,4 +11,27 @@
         "platform": "JavaScript",
         "status": "Not selected as entry point"
     }
+]
+
+http://localhost:8080/send-scan-status
+
+http://localhost:8080/send-flaws
+
+[
+   {
+       "id": 1,
+       "severity": "Low",
+       "description": "Improperty Output Neutralization"
+   },
+   {
+       "id": 2,
+       "severity": "Medium",
+       "description": "Cross-Site Request Forgery (CSRF)"
+   },
+   {
+       "id": 3,
+       "severity": "High",
+       "description": "SQL Injection"
+   }
+
 ]

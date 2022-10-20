@@ -1,0 +1,12 @@
+[
+    {
+        "name": "example1.war",
+        "platform": "java",
+        "status": "Selected as entry point"
+    },
+    {
+        "name": "JS files",
+        "platform": "JavaScript",
+        "status": "Not selected as entry point"
+    }
+]

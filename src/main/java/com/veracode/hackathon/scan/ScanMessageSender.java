@@ -1,5 +1,6 @@
 package com.veracode.hackathon.scan;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,16 +24,22 @@ public class ScanMessageSender {
     }
 
     @PostMapping(value = "send-modules", consumes = "application/json")
-    public ResponseEntity<String> sendModuleInformation(@RequestBody List<Module> modules) {
-        System.out.println("Sending module information");
+    public ResponseEntity<String> sendModuleInformation(@RequestBody List<Module> modules) throws Exception {
+        System.out.println("*** Sending module information to websocket topic /topic/modules *** ");
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(modules));
         this.template.setDefaultDestination("/topic/modules");
         this.template.convertAndSend(modules);
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping(value = "send-flaws", consumes = "application/json")
-    public ResponseEntity<String> sendFlawInformation(@RequestBody List<Flaw> flaws) {
-        System.out.println("Sending flaws information");
+    public ResponseEntity<String> sendFlawInformation(@RequestBody List<Flaw> flaws) throws Exception {
+        System.out.println("");
+        System.out.println("**** Sending flaws information to websocket topic /topic/flaws ***");
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(flaws));
+
         this.template.setDefaultDestination("/topic/flaws");
         this.template.convertAndSend(flaws);
         return ResponseEntity.ok("Success");
@@ -40,14 +47,15 @@ public class ScanMessageSender {
 
     @GetMapping("/send-scan-status")
     public void sendScanStatus() throws Exception {
-        System.out.println("Sending scan status information");
+        System.out.println();
+        System.out.println("*** Sending scan status information to websocket topic /topic/scan-status ***");
         this.template.setDefaultDestination("/topic/scan-status");
 
         Thread.sleep(2000);
         System.out.println("Sending scan status: In Progress");
 
         this.template.convertAndSend("In Progress");
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         System.out.println("Sending scan status: Completed");
         this.template.convertAndSend("Completed");
 
